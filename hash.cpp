@@ -1,40 +1,40 @@
 #include "headers/hash.h"
 #include <string.h>
+#include <stdint.h>
 
-
-int hash_1(const char* inputString) {
+uint64_t hash_1(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
     return 1;
 }
 
-int hash_2(const char* inputString) {
+uint64_t hash_2(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     return inputString[0];
 }
 
-int hash_3(const char* inputString) {
+uint64_t hash_3(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     return strlen(inputString);
 }
 
-int hash_4(const char* inputString) {
+uint64_t hash_4(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    int sum =          0         ;
-    int len = strlen(inputString);
+    uint64_t sum =          0         ;
+    uint64_t len = strlen(inputString);
 
     for (int cur = 0; cur < len; cur++) sum += inputString[cur];
 
     return sum;
 }
 
-int hash_5(const char* inputString) {
+uint64_t hash_5(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    int hash =         0          ;
-    int len  = strlen(inputString);
+    uint64_t hash =         0          ;
+    uint64_t len  = strlen(inputString);
 
     for (int cur = 0; cur < len; cur++) {
         hash ^= inputString[cur];
@@ -44,11 +44,11 @@ int hash_5(const char* inputString) {
     return hash;
 }
 
-int hash_6(const char* inputString) {
+uint64_t hash_6(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    int hash =         0          ;
-    int len  = strlen(inputString);
+    uint64_t hash =         0          ;
+    uint64_t len  = strlen(inputString);
 
     for (int cur = 0; cur < len; cur++) {
         hash ^= inputString[cur];
@@ -58,15 +58,12 @@ int hash_6(const char* inputString) {
     return hash;
 }
 
-int hash_7(const char* inputString) {
-    if (inputString == nullptr) return ERROR_HASH;
+uint64_t hash_7(const void *memPointer, size_t totalBytes) {
+    uint64_t hash = 5381;
 
-    int hash =         0          ;
-    int len  = strlen(inputString);
-
-    for (int cur = 0; cur < len; cur++) {
-        hash ^= inputString[cur];
-        hash  =   cycleR(hash)  ;
+    char *pointer = (char *) memPointer;
+    for (size_t currentByte = 0; currentByte < totalBytes; currentByte++) {
+        hash = hash * 33 + pointer[currentByte];
     }
 
     return hash;
