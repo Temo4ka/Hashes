@@ -1,4 +1,4 @@
-#include "list.h"
+#include "headers/list.h"
 #include <cstdlib>
 #include <cstdarg>
 
@@ -112,7 +112,7 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
     return newPos;
 }
 
-int listPushBack(List *list, Elem_t val, int *err = nullptr) {
+size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
     catchNullptr(list);
 
     *err = listVerify(list);
