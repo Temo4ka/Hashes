@@ -1,11 +1,6 @@
 #include "headers/list.h"
 #include <cstdlib>
-#include <cstdarg>
-
-//TODO: new List with struct
-//      define Head and Tail
-//      PhysIns and PhysErase
-//      Better GraphViz
+#include <cstdarg>q
 
 #define TAIL list -> prev[0]
 #define HEAD list -> next[0]
@@ -74,18 +69,18 @@ int listDtor(List * list) {
 }
 
 int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
-    if (list == nullptr) return POISON;
+    if (list == nullptr) return POISON_i;
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
 
     if (list -> nextFree == list -> head) { 
         *err = ListIsEmpty;
-        return POISON;
+        return POISON_i;
     }
 
     size_t prevPos = listGetPos(list, ind);
-    if (prevPos == POISON) return POISON;
+    if (prevPos == POISON_i) return POISON_i;
 
     printf("______________\n");
     
@@ -107,7 +102,7 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
      printf("%d\n", newPos);
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
 
     return newPos;
 }
@@ -116,12 +111,12 @@ size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
     catchNullptr(list);
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
 
     if (list -> nextFree == FictElem) return ListIsEmpty;
     
     size_t prevPos = list -> prev[list -> head];
-    if (prevPos == POISON) return POISON;
+    if (prevPos == POISON_i) return POISON_i;
 
     fprintf(stderr, "-----\n");
 
@@ -139,7 +134,7 @@ size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
     list -> data[newPos] = val; 
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
 
     return newPos;
 }
@@ -148,7 +143,7 @@ int listPushFront(List *list, Elem_t val, int *err = nullptr) {
     catchNullptr(list);
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
     // TODO: enum for 0
 
     if (list -> nextFree == FictElem) return ListIsEmpty;
@@ -167,7 +162,7 @@ int listPushFront(List *list, Elem_t val, int *err = nullptr) {
     list -> data[newPos] = val; 
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
 
     return newPos;
 }
@@ -183,7 +178,7 @@ int listLogicErase (List *list, size_t ind) {
     if (HEAD == FictElem) return ListIsEmpty;
 
     size_t curPos = listGetPos(list, ind);
-    if (curPos == POISON) return ListWrongIndex;
+    if (curPos == POISON_i) return ListWrongIndex;
 
     if (list -> prev[curPos] != 0 && list -> next[curPos] != 0)
         list -> sweetLife = Bitter;
@@ -205,20 +200,20 @@ int listLogicErase (List *list, size_t ind) {
 
 
 int listPhysInsert(List *list, size_t ind, Elem_t val, int *err) {
-    if (list == nullptr) return POISON;
+    if (list == nullptr) return POISON_i;
 
     *err = listVerify(list);
-    if (*err) return POISON;
+    if (*err) return POISON_i;
     
     if (list -> nextFree == FictElem) {
         *err = ListIsFull;
-        return POISON;
+        return POISON_i;
     }
 
-    if (list -> data[ind] == DataFree) {
-        *err = ListWrongIndex;
-        return POISON;
-    }
+    // if (list -> data[ind] == DataFree) {
+    //     *err = ListWrongIndex;
+    //     return POISON_i;
+    // }
 
     size_t  prevPos  =        ind          ;
     size_t   newPos  = list ->   nextFree  ;
@@ -266,12 +261,12 @@ int listPhysErase (List *list, size_t ind) {
 
 
 int listGetPos(List *list, size_t index) {
-    if (list == nullptr) return POISON;
+    if (list == nullptr) return POISON_i;
 
     if (list -> sweetLife) {
         size_t pos = index + HEAD;
         if (list -> prev[pos] == DataFree)
-            return POISON;
+            return POISON_i;
         return pos;
     }
 
@@ -280,7 +275,7 @@ int listGetPos(List *list, size_t index) {
         printf("Анжумання\n\a");
         pos = list -> next[pos];
         if (!pos)
-            return POISON;
+            return POISON_i;
     }
 
     return pos;
@@ -368,6 +363,7 @@ int listPrint(List *list) {
     return ListIsOk;
 }
 
+/*
 int listVerifyData(List *list) {
     catchNullptr(list);
 
@@ -376,6 +372,7 @@ int listVerifyData(List *list) {
 
     return ListIsOk;
 }
+*/
 
 int listVerifyFree(List *list) {
     catchNullptr(list);

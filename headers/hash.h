@@ -2,11 +2,21 @@
 //     Seven types of hashes are presented in this file        \\
 //-------------------------------------------------------------\\
 
+#include "config"
+#include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include "list.h"
 
-const int ERROR_HASH = 1e9 + 17;
+struct HashTable {
+    List *list = (List *) calloc(MOD, sizeof(List));
 
+    int numOfElems = 0;
+};
+
+int initHashTable(HashTable *table, char *text);
+
+int addString(HashTable *table, char *string);
 
 uint64_t hash_1(const char* inputString);
 

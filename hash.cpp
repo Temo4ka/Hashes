@@ -1,6 +1,19 @@
 #include "headers/hash.h"
-#include <string.h>
-#include <stdint.h>
+
+int initHashTable(HashTable *table, char *text) {
+    catchNullptr(table);
+    catchNullptr(text );
+
+    char *curString = strtok(text, DELIM);
+    while (curString != nullptr) {
+        curString = strtok(nullptr, DELIM);
+        
+        int err = addString(table, curString);
+        if (err) return err;
+    }
+
+    return EXIT_SUCCESS;
+}
 
 uint64_t hash_1(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
