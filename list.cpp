@@ -1,6 +1,6 @@
 #include "headers/list.h"
 #include <cstdlib>
-#include <cstdarg>q
+#include <cstdarg>
 
 #define TAIL list -> prev[0]
 #define HEAD list -> next[0]
@@ -107,11 +107,13 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
     return newPos;
 }
 
-size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
+int listPushBack(List *list, Elem_t val, int *err = nullptr) {
     catchNullptr(list);
 
-    *err = listVerify(list);
-    if (*err) return POISON_i;
+    if (err != nullptr) {
+        *err = listVerify(list);
+        if (*err) return POISON_i;
+    }
 
     if (list -> nextFree == FictElem) return ListIsEmpty;
     
@@ -133,8 +135,10 @@ size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
 
     list -> data[newPos] = val; 
 
-    *err = listVerify(list);
-    if (*err) return POISON_i;
+    if (err != nullptr) {
+        *err = listVerify(list);
+        if (*err) return POISON_i;
+    }
 
     return newPos;
 }
@@ -142,9 +146,10 @@ size_t listPushBack(List *list, Elem_t val, int *err = nullptr) {
 int listPushFront(List *list, Elem_t val, int *err = nullptr) {
     catchNullptr(list);
 
-    *err = listVerify(list);
-    if (*err) return POISON_i;
-    // TODO: enum for 0
+    if (err != nullptr) {
+        *err = listVerify(list);
+        if (*err) return POISON_i;
+    }
 
     if (list -> nextFree == FictElem) return ListIsEmpty;
     
@@ -161,8 +166,10 @@ int listPushFront(List *list, Elem_t val, int *err = nullptr) {
 
     list -> data[newPos] = val; 
 
-    *err = listVerify(list);
-    if (*err) return POISON_i;
+    if (err != nullptr) {
+        *err = listVerify(list);
+        if (*err) return POISON_i;
+    }
 
     return newPos;
 }

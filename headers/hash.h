@@ -14,9 +14,9 @@ struct HashTable {
     int numOfElems = 0;
 };
 
-int initHashTable(HashTable *table, char *text);
+int initHashTable(HashTable *table, char *text, uint64_t (*hash)(const char *));
 
-int addString(HashTable *table, char *string);
+int hashAddString(HashTable *table, char *string, uint64_t (*hash)(const char *));
 
 uint64_t hash_1(const char* inputString);
 

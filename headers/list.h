@@ -1,4 +1,5 @@
 #include "listType.h"
+#include "config"
 #include <cstdio>
 #include <string.h>
 
@@ -87,6 +88,10 @@ int  listGetPos    (List *list, size_t ind);
 int  listVerify    (List *list);
 
 int  listPrint     (List *list); 
+
+int listPushBack(List *list, Elem_t val, int *err = nullptr);
+
+int listPushFront(List *list, Elem_t val, int *err = nullptr);
 
 void printErrorMessage(int error);
 

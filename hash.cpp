@@ -1,18 +1,32 @@
 #include "headers/hash.h"
 
-int initHashTable(HashTable *table, char *text) {
+int initHashTable(HashTable *table, char *text, uint64_t (*hash)(const char *)) {
     catchNullptr(table);
     catchNullptr(text );
 
     char *curString = strtok(text, DELIM);
     while (curString != nullptr) {
         curString = strtok(nullptr, DELIM);
-        
-        int err = addString(table, curString);
+
+        int err = hashAddString(table, curString, hash);
         if (err) return err;
     }
 
     return EXIT_SUCCESS;
+}
+
+int hashAddString(HashTable *table, char *string, uint64_t (*hash)(const char *)) {
+    catchNullptr(table );
+    catchNullptr(string);
+
+    int k = hash(string) % MOD;
+
+    Elem_t newElem = listElemCtor(string, k);
+
+    int err = EXIT_SUCCESS;
+    listPushBack(&(table -> list[k]), newElem, &err);
+
+    return err;
 }
 
 uint64_t hash_1(const char* inputString) {
