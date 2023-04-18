@@ -2,7 +2,8 @@
 //     Seven types of hashes are presented in this file        \\
 //-------------------------------------------------------------\\
 
-#include "config"
+#pragma "once"
+#include "config.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>

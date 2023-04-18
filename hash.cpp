@@ -19,12 +19,14 @@ int hashAddString(HashTable *table, char *string, uint64_t (*hash)(const char *)
     catchNullptr(table );
     catchNullptr(string);
 
-    int k = hash(string) % MOD;
+    int h = hash(string) % MOD;
 
-    Elem_t newElem = listElemCtor(string, k);
+    Elem_t newElem = listElemCtor(string, h);
 
     int err = EXIT_SUCCESS;
-    listPushBack(&(table -> list[k]), newElem, &err);
+    listPushBack(&(table -> list[h]), newElem, &err);
+
+    table -> numOfElems += 1;
 
     return err;
 }

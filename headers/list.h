@@ -1,5 +1,7 @@
-#include "listType.h"
+#pragma "once"
+
 #include "config"
+#include "listType.h"
 #include <cstdio>
 #include <string.h>
 
