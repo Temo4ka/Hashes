@@ -59,6 +59,9 @@ uint64_t hash_4(const char* inputString) {
     return sum;
 }
 
+int cycleL(int num);
+int cycleR(int num);
+
 uint64_t hash_5(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
@@ -121,4 +124,16 @@ int cycleL(int num) {
     num = num * 10 + FirstS;
 
     return num;
+}
+
+bool isInList(List *list, const char* string) {
+    if ( list  == nullptr) return 0;
+    if (string == nullptr) return 0;
+
+    if (list -> data[list -> head].data == string) return true;
+    
+    for (size_t cur = list -> next[list -> head]; cur != list -> head; cur = list -> next[cur])
+        if (list -> data[cur].data == string) return true;
+
+    return false;
 }

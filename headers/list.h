@@ -1,11 +1,7 @@
-#pragma "once"
-
-#include "config"
+#include "config.h"
 #include "listType.h"
 #include <cstdio>
 #include <string.h>
-
-const int MAX_LIST_SIZE = 20;
 
 enum ListErrors {
              ListIsOk         =       0,
@@ -58,21 +54,6 @@ struct List {
     bool  sweetLife =  Active ;
 };
 
-#define listCtor(LIST) {                                                    \
-    _listCtor((LIST), #LIST, __FILE__, __PRETTY_FUNCTION__, __LINE__);     \
-}
-
-#define catchNullptr(POINTER) {                                                                                    \
-    if ((POINTER) == nullptr) {                                                                                     \
-        fprintf(stderr, "%s pointer at %s at %s(%d) is NULL\n", #POINTER, __PRETTY_FUNCTION__, __FILE__, __LINE__);  \
-        return EXIT_FAILURE;                                                                                          \
-    }                                                                                                                  \
-}
-
-#define listDump(LIST) {                                             \
-    listDump_((LIST), __PRETTY_FUNCTION__, __FILE__, __LINE__);    \
-}
-
 int _listCtor(List *list, const char * name, const char *file, const char *function, size_t line);
 
 int listDtor(List *list);
@@ -91,9 +72,9 @@ int  listVerify    (List *list);
 
 int  listPrint     (List *list); 
 
-int listPushBack(List *list, Elem_t val, int *err = nullptr);
+int listPushBack(List *list, Elem_t val, int *err);
 
-int listPushFront(List *list, Elem_t val, int *err = nullptr);
+int listPushFront(List *list, Elem_t val, int *err);
 
 void printErrorMessage(int error);
 

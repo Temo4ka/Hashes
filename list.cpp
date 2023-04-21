@@ -82,7 +82,7 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
     size_t prevPos = listGetPos(list, ind);
     if (prevPos == POISON_i) return POISON_i;
 
-    printf("______________\n");
+    // printf("______________\n");
     
     size_t   newPos  = list ->   nextFree  ; 
 
@@ -99,7 +99,7 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
     if (newPos - list -> next[list -> head] + 1 != ind)
         list -> sweetLife = Bitter;
 
-     printf("%d\n", newPos);
+    //  printf("%d\n", newPos);
 
     *err = listVerify(list);
     if (*err) return POISON_i;
@@ -279,10 +279,9 @@ int listGetPos(List *list, size_t index) {
 
     size_t pos = list -> head;
     for (size_t cur = 0; cur < index; ++cur) {
-        printf("Анжумання\n\a");
+        // printf("Анжумання\n\a");
         pos = list -> next[pos];
-        if (!pos)
-            return POISON_i;
+        if (pos == list -> head) return POISON_i;
     }
 
     return pos;
@@ -336,7 +335,7 @@ static int reCalloc(List *list, int newSize) {
     return ListIsOk;
 }
 
-int listVerifyData(List *list);
+// int listVerifyData(List *list);
 
 int listVerifyFree(List *list);
 
@@ -353,7 +352,7 @@ int listVerify(List *list) {
 
     if (list -> status == InActive) err |= ListIsInActive;
 
-    err |= listVerifyData(list);
+    // err |= listVerifyData(list);
     err |= listVerifyFree(list);
 
     return err;
