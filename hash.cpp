@@ -1,5 +1,16 @@
 #include "headers/hash.h"
 
+int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size = MOD) {
+    catchNullptr(hashTable);
+    catchNullptr(   hash  );
+
+    hashTable ->  maxSize   = size;
+    hashTable -> numOfElems =  0  ;
+    hashTable ->   hash     = hash;
+
+    hashTable ->   list     = (List *) calloc(size, sizeof(List));
+}
+
 int initHashTable(HashTable *table, char *text, uint64_t (*hash)(const char *)) {
     catchNullptr(table);
     catchNullptr(text );

@@ -120,8 +120,6 @@ int listPushBack(List *list, Elem_t val, int *err = nullptr) {
     size_t prevPos = list -> prev[list -> head];
     if (prevPos == POISON_i) return POISON_i;
 
-    fprintf(stderr, "-----\n");
-
     
     size_t   newPos  = list ->   nextFree  ; 
 
