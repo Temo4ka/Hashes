@@ -1,6 +1,6 @@
 #include "headers/hash.h"
 
-int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size = MOD) {
+int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size) {
     catchNullptr(hashTable);
     catchNullptr(   hash  );
 
@@ -9,33 +9,43 @@ int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size =
     hashTable ->   hash     = hash;
 
     hashTable ->   list     = (List *) calloc(size, sizeof(List));
+
+    return EXIT_SUCCESS;
 }
 
-int initHashTable(HashTable *table, char *text, uint64_t (*hash)(const char *)) {
+int initHashTable(HashTable *table, char *text) {
     catchNullptr(table);
     catchNullptr(text );
 
     char *curString = strtok(text, DELIM);
     while (curString != nullptr) {
-        curString = strtok(nullptr, DELIM);
-
-        int err = hashAddString(table, curString, hash);
+        int err = hashAddString(table, curString);
         if (err) return err;
+        fprintf(stderr, "%s\n", curString);
+
+        curString = strtok(NULL, DELIM);
     }
 
     return EXIT_SUCCESS;
 }
 
-int hashAddString(HashTable *table, char *string, uint64_t (*hash)(const char *)) {
+int hashAddString(HashTable *table, char *string) {
     catchNullptr(table );
     catchNullptr(string);
 
-    int h = hash(string) % MOD;
+    int h = table -> hash(string) % MOD;
+
+    // fprintf(stderr, "%d\n", table -> list[h].status);
+    if (table -> list[h].status == InActive)
+        listCtor(&(table -> list[h]));
+
+    // fprintf(stderr, "%d\n", table -> list[h].status);
 
     Elem_t newElem = listElemCtor(string, h);
 
     int err = EXIT_SUCCESS;
     listPushBack(&(table -> list[h]), newElem, &err);
+    fprintf(stderr, "%d\n", err);
 
     table -> numOfElems += 1;
 
@@ -101,10 +111,12 @@ uint64_t hash_6(const char* inputString) {
     return hash;
 }
 
-uint64_t hash_7(const void *memPointer, size_t totalBytes) {
+uint64_t hash_7(const char *string) {
+    size_t totalBytes = strlen(string);
+    
     uint64_t hash = 5381;
 
-    char *pointer = (char *) memPointer;
+    char *pointer = (char *) string;
     for (size_t currentByte = 0; currentByte < totalBytes; currentByte++) {
         hash = hash * 33 + pointer[currentByte];
     }

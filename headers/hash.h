@@ -19,9 +19,9 @@ struct HashTable {
 
 int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size = MOD);
 
-int initHashTable(HashTable *table, char *text, uint64_t (*hash)(const char *));
+int initHashTable(HashTable *table, char *text);
 
-int hashAddString(HashTable *table, char *string, uint64_t (*hash)(const char *));
+int hashAddString(HashTable *table, char *string);
 
 bool isInList(List *list, const char* string);
 

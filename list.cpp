@@ -424,13 +424,13 @@ void listDump_(List *list, const char* functionName, const char *fileName, size_
     myfPrintf(LogFile, "\n<br>}<br>\n");
 }
 
-int listGraphVizLogicDump(List *list, const char *outFileName) {
-    catchNullptr(outFileName);
-    catchNullptr(   list    );
+int listGraphVizLogicDump(List *list, FILE *stream, int num) {
+    catchNullptr(stream);
+    catchNullptr( list );
 
-    FILE *stream = fopen(outFileName, "w");
+    // fseek(stream, 0, SEEK_END);
 
-    fprintf(stream, "digraph List {\n"
+    fprintf(stream, "digraph List_%d{\n"
                     "   rankdir = LR;\n");
 
     fprintf(stream, "   subgraph varriables {\n"
@@ -440,7 +440,7 @@ int listGraphVizLogicDump(List *list, const char *outFileName) {
                     "        Status  [label = \"Status = %d\"];\n"
                     "       NextFree [label = \"NextFree = %d\"];\n"
                     "       SweetLife[label = \"SweetLife = %d\"];\n"
-                    "   }\n",
+                    "   }\n", num,
             list -> head, list -> status, list -> nextFree, list -> sweetLife);
 
     fprintf(stream, "   subgraph UsedNodes {\n"

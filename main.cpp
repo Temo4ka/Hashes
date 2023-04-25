@@ -5,10 +5,23 @@
 int main() {
     HashTable table = {};
 
-    Text text = {};
-    if (TextCtor(&text, INPUT_FILE_NAME)) return EXIT_FAILURE;
+    hashCtor(&table, hash_7);
 
-    initHashTable(&table, text.buffer, hash_2);
+    Text text = {};
+    if (TextCtor(&text, INPUT_FILE_NAME)) { 
+        fprintf(stderr, "Error here!\n");
+        return EXIT_FAILURE;
+    }
+
+    // fprintf(stderr, "%s\n", text.buffer);
+    initHashTable(&table, text.buffer);
+    fprintf(stderr, "%d\n", table.numOfElems);
+
+    if (table.list[1].status == InActive) fprintf(stderr, "NULLPTR!!!\n");
+
+    for (int i = 1; i < MOD; i++) {
+        fprintf(stderr, "%d -> %d", i, table.list[i].prev[0]);
+    }
 
     printf("Succes\n");
 

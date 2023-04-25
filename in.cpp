@@ -12,7 +12,7 @@ int TextCtor(Text *text, const char *fileName) {
     size_t readSymbols = fread(text -> buffer, sizeof(char), BUFFER_SZ - 1, text -> stream);
 
     if (text -> buffer == nullptr) return EXIT_FAILURE;
-    text -> buffer[readSymbols] = '\0';
+    text -> buffer[BUFFER_SZ - 1] = '\0';
 
     return EXIT_SUCCESS;
 }

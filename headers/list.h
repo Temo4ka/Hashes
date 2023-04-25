@@ -22,8 +22,8 @@ enum ListErrors {
 };
 
 enum Status {
-     Active = 0,
-    InActive = 1
+    InActive = 0,
+     Active  = 1,
 };
 
 enum Life {
@@ -82,7 +82,7 @@ void listDump_(List *list, const char* functionName, const char *fileName, size_
 
 void listLogClose() ;
 
-int listGraphVizLogicDump(List *list, const char *outFile);
+int listGraphVizLogicDump(List *list, FILE *stream, int num);
 
 int listGraphVizPhysDump(List *list, const char *fileName, int cmd);
 
