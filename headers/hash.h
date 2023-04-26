@@ -14,10 +14,10 @@ struct HashTable {
     size_t numOfElems = 0;
     size_t   maxSize  = 0;
 
-    uint64_t (*hash)(const char *) = nullptr;
+    HashFunc_t hash = nullptr;
 };
 
-int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size = MOD);
+int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size = MOD);
 
 int initHashTable(HashTable *table, char *text);
 

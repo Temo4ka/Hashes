@@ -1,6 +1,6 @@
 #include "headers/hash.h"
 
-int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size) {
+int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size) {
     catchNullptr(hashTable);
     catchNullptr(   hash  );
 
@@ -13,6 +13,14 @@ int hashCtor(HashTable *hashTable, uint64_t (*hash)(const char *), size_t size) 
     return EXIT_SUCCESS;
 }
 
+int hashDtor(HashTable *hashTable) {
+    catchNullptr(hashTable);
+
+    free(hashTable -> list);
+
+    return EXIT_SUCCESS;
+}
+
 int initHashTable(HashTable *table, char *text) {
     catchNullptr(table);
     catchNullptr(text );
@@ -21,7 +29,7 @@ int initHashTable(HashTable *table, char *text) {
     while (curString != nullptr) {
         int err = hashAddString(table, curString);
         if (err) return err;
-        fprintf(stderr, "%s\n", curString);
+        // fprintf(stderr, "%s\n", curString);
 
         curString = strtok(NULL, DELIM);
     }
@@ -45,7 +53,7 @@ int hashAddString(HashTable *table, char *string) {
 
     int err = EXIT_SUCCESS;
     listPushBack(&(table -> list[h]), newElem, &err);
-    fprintf(stderr, "%d\n", err);
+    // fprintf(stderr, "%d\n", err);
 
     table -> numOfElems += 1;
 
@@ -113,7 +121,7 @@ uint64_t hash_6(const char* inputString) {
 
 uint64_t hash_7(const char *string) {
     size_t totalBytes = strlen(string);
-    
+
     uint64_t hash = 5381;
 
     char *pointer = (char *) string;
