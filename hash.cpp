@@ -25,7 +25,10 @@ int initHashTable(HashTable *table, const char *text) {
     catchNullptr(table);
     catchNullptr(text );
 
-    char *buffer = strcpy(buffer, text);
+    char *buffer = (char *) calloc(BUFFER_SZ, sizeof(char));
+          buffer = strcpy(buffer, text);
+    
+    catchNullptr(buffer);
 
     char *curString = strtok(buffer, DELIM);
     while (curString != nullptr) {
