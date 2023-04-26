@@ -19,7 +19,9 @@ struct HashTable {
 
 int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size = MOD);
 
-int initHashTable(HashTable *table, char *text);
+int hashDtor(HashTable *hashTable);
+
+int initHashTable(HashTable *table, const char *text);
 
 int hashAddString(HashTable *table, char *string);
 

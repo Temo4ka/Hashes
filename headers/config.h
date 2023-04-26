@@ -3,16 +3,18 @@
 
 typedef unsigned long long (*HashFunc_t)(const char*);
 
-const int    MOD     = 1e3 +  7;
-const int  POISON_i  = 1e9 +  7;
-const int ERROR_HASH = 1e9 + 17;
-const int BUFFER_SZ  =    1e6  ;
+const int      MOD      = 1e3 +  7;
+const int    POISON_i   = 1e9 +  7;
+const int   ERROR_HASH  = 1e9 + 17;
+const int   BUFFER_SZ   =    1e6  ;
+const int HASH_FUNC_NUM =     7   ;
 
 const int MAX_LIST_SIZE = 20000;
 
 static const char *DELIM = " ,.;-%\"\'?!$()[]{}";
 
-static const char *INPUT_FILE_NAME = "in/input.txt";
+static const char *OUTPUT_FILE_NAME = "out/output.csv";
+static const char * INPUT_FILE_NAME =  "in/input.txt" ;
 
 #define listCtor(LIST) {                                                    \
     _listCtor((LIST), #LIST, __FILE__, __PRETTY_FUNCTION__, __LINE__);     \

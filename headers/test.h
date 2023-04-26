@@ -2,9 +2,4 @@
 #include "hash.h"
 #include "in.h"
 
-int test(HashFunc_t *hashFuncs, Text *text) {
-    catchNullptr( hashFuncs);
-    catchNullptr(   text   );
-
-    
-}
+int test(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* outputFileName);

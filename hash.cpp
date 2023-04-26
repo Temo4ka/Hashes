@@ -21,11 +21,13 @@ int hashDtor(HashTable *hashTable) {
     return EXIT_SUCCESS;
 }
 
-int initHashTable(HashTable *table, char *text) {
+int initHashTable(HashTable *table, const char *text) {
     catchNullptr(table);
     catchNullptr(text );
 
-    char *curString = strtok(text, DELIM);
+    char *buffer = strcpy(buffer, text);
+
+    char *curString = strtok(buffer, DELIM);
     while (curString != nullptr) {
         int err = hashAddString(table, curString);
         if (err) return err;
