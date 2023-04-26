@@ -10,12 +10,17 @@ int test(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* outputFile
     FILE* stream = fopen(outputFileName, "w");
     catchNullptr(stream);
 
-    for (int curFunc = 0; curFunc < HASH_FUNC_NUM; curFunc++) {
+    const char *hash_names[HASH_FUNC_NUM] = { "DumbHash", "FirstElem", "LengthHash", "SumHash", "XorCycleLHash", "XorCycleRHash", "GnuHash" };
+
+    fprintf(stream, ", ");
+    for (int cur = 0; cur < MOD; cur++) fprintf(stream, "%d, ", cur + 1);
+    fprintf(stream, "\n");
+
+    for (int curFunc = 3; curFunc < HASH_FUNC_NUM; curFunc++) {
         hashCtor(&table, hashFuncs[curFunc]);
         initHashTable(&table, text -> buffer);
 
-        fprintf(stream, "HashFunction%d(%d),", curFunc + 1, table.numOfElems);
-        
+        fprintf(stream, "%s_%d, ", hash_names[curFunc], table.numOfElems, table.numOfElems);
         for (int i = 1; i < MOD; i++) {
             if (table.list[i].status == InActive)
                 fprintf(stream, "0, ");

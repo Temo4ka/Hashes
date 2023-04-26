@@ -10,7 +10,7 @@ const int HASH_FUNC_NUM =     7   ;
 
 const int MAX_LIST_SIZE =   5000  ;
 
-const unsigned long long  MOD  = 1e3 +  7;
+const unsigned long long  MOD  = 3e3 +  7;
 const unsigned long long SHIFT = sizeof(long long) - 1; 
 
 static const char *DELIM = " ,.;-%\"\'?!$()[]{}";
