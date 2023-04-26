@@ -10,7 +10,7 @@ int test(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* outputFile
     FILE* stream = fopen(outputFileName, "w");
     catchNullptr(stream);
 
-    for (int curFunc = 0; curFunc <= HASH_FUNC_NUM; curFunc++) {
+    for (int curFunc = 0; curFunc < HASH_FUNC_NUM; curFunc++) {
         hashCtor(&table, hashFuncs[curFunc]);
         initHashTable(&table, text -> buffer);
 
@@ -20,11 +20,11 @@ int test(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* outputFile
             if (table.list[i].status == InActive)
                 fprintf(stream, "0, ");
             else
-                fprintf(stream, "%d, ", i, table.list[i].prev[0]);
+                fprintf(stream, "%d, ", table.list[i].prev[0]);
         }
         fprintf(stream, "\n");
 
-        hashDtor(&table);
+        if (hashDtor(&table)) return EXIT_FAILURE;
     }
 
     fclose(stream);

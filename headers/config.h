@@ -3,13 +3,15 @@
 
 typedef unsigned long long (*HashFunc_t)(const char*);
 
-const int      MOD      = 1e3 +  7;
 const int    POISON_i   = 1e9 +  7;
 const int   ERROR_HASH  = 1e9 + 17;
 const int   BUFFER_SZ   =    1e6  ;
 const int HASH_FUNC_NUM =     7   ;
 
-const int MAX_LIST_SIZE = 20000;
+const int MAX_LIST_SIZE =   5000  ;
+
+const unsigned long long  MOD  = 1e3 +  7;
+const unsigned long long SHIFT = sizeof(long long) - 1; 
 
 static const char *DELIM = " ,.;-%\"\'?!$()[]{}";
 

@@ -16,6 +16,9 @@ int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size) {
 int hashDtor(HashTable *hashTable) {
     catchNullptr(hashTable);
 
+    for (int cur = 0; cur < MOD; cur++)
+        if (hashTable -> list[cur].status == Active && listDtor(&(hashTable -> list[cur]))) return EXIT_FAILURE;
+        
     free(hashTable -> list);
 
     return EXIT_SUCCESS;
@@ -34,7 +37,6 @@ int initHashTable(HashTable *table, const char *text) {
     while (curString != nullptr) {
         int err = hashAddString(table, curString);
         if (err) return err;
-        // fprintf(stderr, "%s\n", curString);
 
         curString = strtok(NULL, DELIM);
     }
@@ -48,20 +50,17 @@ int hashAddString(HashTable *table, char *string) {
 
     int h = table -> hash(string) % MOD;
 
-    // fprintf(stderr, "%d\n", table -> list[h].status);
     if (table -> list[h].status == InActive)
         listCtor(&(table -> list[h]));
 
-    // fprintf(stderr, "%d\n", table -> list[h].status);
-
     Elem_t newElem = listElemCtor(string, h);
+
 
     int err = EXIT_SUCCESS;
     listPushBack(&(table -> list[h]), newElem, &err);
-    // fprintf(stderr, "%d\n", err);
 
     table -> numOfElems += 1;
-
+    
     return err;
 }
 
@@ -93,8 +92,8 @@ uint64_t hash_4(const char* inputString) {
     return sum;
 }
 
-int cycleL(int num);
-int cycleR(int num);
+uint64_t cycleL(uint64_t num);
+uint64_t cycleR(uint64_t num);
 
 uint64_t hash_5(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
@@ -137,27 +136,23 @@ uint64_t hash_7(const char *string) {
     return hash;
 }
 
-int cycleR(int num) {
-    int lastS = num / 10;
+uint64_t cycleR(uint64_t num) {
+    uint64_t lastS = num & 1;
 
-    num = num / 10;
+    num = num >> (uint64_t) 1;
 
-    int k = 1;
-    while (num / k) k *= 10;
-    num += k * lastS;
+    num = ((lastS << SHIFT) | num);
 
     return num;
 }
 
-int cycleL(int num) {
-    int k = 1;
-    while (num / k) k *= 10;
-    k /= 10;
+uint64_t cycleL(uint64_t num) {
+    uint64_t mask = (uint64_t) 1 << SHIFT;
 
-    int FirstS = num / k;
-    num -= FirstS * k;
+    bool k = (mask & num);
 
-    num = num * 10 + FirstS;
+    num = num << (uint64_t) 1;
+    num |= k;
 
     return num;
 }
