@@ -107,7 +107,7 @@ int listLogicInsert(List *list, size_t ind, Elem_t val, int *err) {
     return newPos;
 }
 
-int listPushBack(List *list, Elem_t val, int *err = nullptr) {
+int listPushBack(List *list, Elem_t val, int *err) {
     catchNullptr(list);
 
     if (err != nullptr) {
@@ -115,11 +115,13 @@ int listPushBack(List *list, Elem_t val, int *err = nullptr) {
         if (*err) return POISON_i;
     }
 
-    if (list -> nextFree == FictElem) return ListIsEmpty;
+    if (list -> nextFree == FictElem) {
+        if (err != nullptr) *err = ListIsEmpty;
+        return POISON_i;
+    }
     
     size_t prevPos = list -> prev[list -> head];
     if (prevPos == POISON_i) return POISON_i;
-
     
     size_t   newPos  = list ->   nextFree  ; 
 

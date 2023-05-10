@@ -6,14 +6,15 @@ typedef unsigned long long (*HashFunc_t)(const char*);
 const int    POISON_i   = 1e9 +  7;
 const int   ERROR_HASH  = 1e9 + 17;
 const int   BUFFER_SZ   =    1e6  ;
-const int HASH_FUNC_NUM =     7   ;
+const int HASH_FUNC_NUM =    07   ;
+const int MAX_DATA_SIZE =    32   ;
 
-const int MAX_LIST_SIZE =   5000  ;
+const int MAX_LIST_SIZE =    20   ;
 
 const unsigned long long  MOD  = 3e3 +  7;
-const unsigned long long SHIFT = sizeof(long long) - 1; 
+const unsigned long long SHIFT = sizeof(long long) * 8 - 1; 
 
-static const char *DELIM = " ,.;-%\"\'?!$()[]{}";
+static const char *DELIM = " ,.;-%\"\'?!$()[]{}\n";
 
 static const char *OUTPUT_FILE_NAME = "out/output.csv";
 static const char * INPUT_FILE_NAME =  "in/input.txt" ;

@@ -72,7 +72,7 @@ int  listVerify    (List *list);
 
 int  listPrint     (List *list); 
 
-int listPushBack(List *list, Elem_t val, int *err);
+int listPushBack(List *list, Elem_t val, int *err = nullptr);
 
 int listPushFront(List *list, Elem_t val, int *err);
 
