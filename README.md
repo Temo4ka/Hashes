@@ -13,15 +13,15 @@
     ![struct HashTable](source/hashtable.png)
 ## Ход работы 
     Основопологающей частью хэш-таблицы являеется хэш-функция, поэтому давайте проведём анализ следующих функций:
-    1) **DumbHash** - возвращает всегда 1.
+    1. **DumbHash** - возвращает всегда 1.
     ![DumbHash](source/DumbHash.png)
-    2) **FirstByteHash** - возвращает ASCII код первого символа строки.
+    2. **FirstByteHash** - возвращает ASCII код первого символа строки.
     ![FirstByteHash](source/FirstByteHash.png)
-    3) **StrLenHash** - возвращает длину строки.
+    3. **StrLenHash** - возвращает длину строки.
     ![StrLenHash](source/StrLenHash.png)
-    4) **SumHash** - возвращает сумму всех ASCII кодов символов строки.
+    4. **SumHash** - возвращает сумму всех ASCII кодов символов строки.
     ![SumHash](source/SumHash.png)
-    5) **RolHash** - циклический сдвиг хеша влево и xor со значением элемента ключа.
+    5. **RolHash** - циклический сдвиг хеша влево и xor со значением элемента ключа.
     ![RolHash](source/RolHash.png)
-    6) **RorHash** - циклический сдвиг хеша вправо и xor со значением элемента ключа.
+    6. **RorHash** - циклический сдвиг хеша вправо и xor со значением элемента ключа.
     ![RorHash](source/RorHash.png)
