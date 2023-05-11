@@ -1,4 +1,6 @@
-#include "headers/in.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include "in.h"
+#include <string.h>
 
 int TextCtor(Text *text, const char *fileName) {
     catchNullptr(fileName);
@@ -17,6 +19,37 @@ int TextCtor(Text *text, const char *fileName) {
     return EXIT_SUCCESS;
 }
 
+int textToWords(Text* text, WordsArray* words) {
+	catchNullptr(text);
+	catchNullptr(words);
+
+	words -> buffer = text -> buffer;
+
+	words -> array  = (char **) calloc( MAX_STRING_NUM, sizeof(char *));
+	catchNullptr(words -> array );
+
+	return initWordsArray(words -> buffer, words);
+}
+
+int initWordsArray(char* buffer, WordsArray* words) {
+	catchNullptr(buffer);
+	catchNullptr(words);
+	
+	char *curString = strtok(buffer, DELIM);
+	while (curString != nullptr) {
+		if (words -> numOfWords == MAX_STRING_NUM) return EXIT_FAILURE;
+
+		words -> array[words -> numOfWords] = (char *) calloc(MAX_DATA_SIZE, sizeof(char));
+		catchNullptr(words->array[words->numOfWords]);
+		strcpy(words->array[words->numOfWords], curString);
+		
+		words -> numOfWords++;
+		curString = strtok(nullptr, DELIM);
+	}
+
+	return EXIT_SUCCESS;
+}
+
 int TextDtor(Text *text) {
     catchNullptr(text);
 
@@ -24,4 +57,9 @@ int TextDtor(Text *text) {
     free(text -> buffer);
 
     return EXIT_SUCCESS;
+}
+
+int WordsArrayDtor(WordsArray* words) {
+
+	return EXIT_SUCCESS;
 }

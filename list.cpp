@@ -1,4 +1,5 @@
-#include "headers/list.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include "list.h"
 #include <cstdlib>
 #include <cstdarg>
 
