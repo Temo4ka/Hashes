@@ -1,4 +1,5 @@
-#include "headers/hash.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include "hash.h"
 #include <cstdio>
 #include <cstdlib>
 #include <immintrin.h>
@@ -27,26 +28,12 @@ int hashDtor(HashTable *hashTable) {
     return EXIT_SUCCESS;
 }
 
-int initHashTable(HashTable *table, const char *text) {
+int initHashTable(HashTable *table, WordsArray *words) {
     catchNullptr(table);
-    catchNullptr(text );
+    catchNullptr(words);
 
-    char *buffer = (char *) calloc(BUFFER_SZ, sizeof(char));
-          buffer = strcpy(buffer, text);
-    
-    catchNullptr(buffer);
-
-    char *curString = strtok(buffer, DELIM);
-    while (curString != nullptr) {
-		//char *newString = (char *) alligned_alloc(128, sizeof(char) * 32);
-		char *newString = (char *) calloc(MAX_DATA_SIZE, sizeof(char));
-		newString = strcpy(newString, curString);
-        int err = hashAddString(table, newString);
-        if (err) return err;
-
-        curString = strtok(NULL, DELIM);
-    }
-
+    for (int curWord = 0; curWord < words -> numOfWords; curWord++)
+		hashAddString(table, words -> array[curWord]);
     return EXIT_SUCCESS;
 }
 
@@ -78,7 +65,7 @@ uint64_t DumbHash(const char* inputString) {
     return 1;
 }
 
-uint64_t FirstByteHash(const char* inputString) {
+uint64_t FirstElemHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     return inputString[0];
@@ -104,7 +91,7 @@ uint64_t SumHash(const char* inputString) {
 uint64_t cycleL(uint64_t num);
 uint64_t cycleR(uint64_t num);
 
-uint64_t RolHash(const char* inputString) {
+uint64_t RotlHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
@@ -118,7 +105,7 @@ uint64_t RolHash(const char* inputString) {
     return hash;
 }
 
-uint64_t RorHash(const char* inputString) {
+uint64_t RotrHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
@@ -215,6 +202,12 @@ bool isInList(List *list, const char* string) {
     return false;
 }
 
+//------------------------------------
+// strcpy written with inline asm
+//	   in order to optimize it
+// -----------------------------------
+// compile only with x86 configuration
+//====================================
 //int myStrcmp(const char* str1, const char* str2) {
 //	__asm {
 //		push ecx
