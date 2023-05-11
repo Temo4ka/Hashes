@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cmath>
 #include "headers/test.h"
 
 int test_diagrams(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* outputFileName) {
@@ -23,14 +24,21 @@ int test_diagrams(HashFunc_t hashFuncs[HASH_FUNC_NUM], Text *text, const char* o
         hashCtor(&table, hashFuncs[curFunc]);
         initHashTable(&table, text -> buffer);
 
+        float mid = (float) table.numOfElems / (float) MOD;
+        float k = 0;
         fprintf(stream, "%s, ", hash_names[curFunc]);
         for (int i = 1; i < MOD; i++) {
-            if (table.list[i].status == InActive)
+            if (table.list[i].status == InActive) {
                 fprintf(stream, "0, ");
-            else
+                k += mid * mid; 
+            } else {
                 fprintf(stream, "%d, ", table.list[i].prev[0]);
+                k += ((float) table.list[i].prev[0] - mid) * ((float) table.list[i].prev[0] - mid); 
+            }
         }
+        k /= MOD;
         fprintf(stream, "\n");
+        fprintf(stderr, "%s -> %lg\n", hash_names[curFunc], sqrt(k));
 
         if (hashDtor(&table)) return EXIT_FAILURE;
     }

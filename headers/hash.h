@@ -31,15 +31,15 @@ bool isInList(List *list, const char* string);
 
 uint64_t DumbHash(const char* inputString);
 
-uint64_t FirstElemHash(const char* inputString);
+uint64_t FirstByteHash(const char* inputString);
 
 uint64_t SumHash(const char* inputString);
 
 uint64_t StrLenHash(const char* inputString);
 
-uint64_t RotlHash(const char* inputString);
+uint64_t RolHash(const char* inputString);
 
-uint64_t RotrHash(const char* inputString);
+uint64_t RorHash(const char* inputString);
 
 uint64_t GnuHash(const char* inputString);
 

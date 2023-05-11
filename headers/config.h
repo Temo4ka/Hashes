@@ -9,9 +9,9 @@ const int   BUFFER_SZ   =    1e6  ;
 const int HASH_FUNC_NUM =    07   ;
 const int MAX_DATA_SIZE =    32   ;
 
-const int MAX_LIST_SIZE =    20   ;
+const int MAX_LIST_SIZE =   1e5   ;
 
-const unsigned long long  MOD  = 3e3 +  7;
+const unsigned long long  MOD  = 1e3 +  7;
 const unsigned long long SHIFT = sizeof(long long) * 8 - 1; 
 
 static const char *DELIM = " ,.;-%\"\'?!$()[]{}\n";

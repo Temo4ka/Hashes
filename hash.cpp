@@ -78,7 +78,7 @@ uint64_t DumbHash(const char* inputString) {
     return 1;
 }
 
-uint64_t FirstElemHash(const char* inputString) {
+uint64_t FirstByteHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     return inputString[0];
@@ -104,7 +104,7 @@ uint64_t SumHash(const char* inputString) {
 uint64_t cycleL(uint64_t num);
 uint64_t cycleR(uint64_t num);
 
-uint64_t RotlHash(const char* inputString) {
+uint64_t RolHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
@@ -118,7 +118,7 @@ uint64_t RotlHash(const char* inputString) {
     return hash;
 }
 
-uint64_t RotrHash(const char* inputString) {
+uint64_t RorHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
