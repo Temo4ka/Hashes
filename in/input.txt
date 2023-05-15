@@ -759,7 +759,7 @@ Ham.
 Very like, very like. Stay'd it long?
 
 Hor.
-While one with moderate haste might tell a hundred.
+While one with MODULEerate haste might tell a hundred.
 
 Mar. and Ber.
 Longer, longer.

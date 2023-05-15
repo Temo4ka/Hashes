@@ -13,7 +13,7 @@ const int    NOT_FOUND   =    -1   ;
 
 const int MAX_LIST_SIZE =    20   ;
 
-const unsigned long long  MOD  = 3e3 +  7;
+const unsigned long long  MODULE  = 3e3 +  7;
 const unsigned long long SHIFT = sizeof(long long) * 8 - 1; 
 
 static const char *DELIM = " ,.;-%\"\'?!$()[]{}\n";

@@ -19,7 +19,7 @@ int test_diagrams(Text *text, const char* outputFileName) {
 	const char *hash_names[HASH_FUNC_NUM] = { "DumbHash", "FirstByteHash", "LengthHash", "SumHash", "RolHash", "RorHash", "GnuHash" };
 
     fprintf(stream, ", ");
-    for (int cur = 0; cur < MOD; cur++) fprintf(stream, "%d, ", cur + 1);
+    for (int cur = 0; cur < MODULE; cur++) fprintf(stream, "%d, ", cur + 1);
     fprintf(stream, "\n");
 
     // fprintf(stderr, "%s\n", text -> buffer);
@@ -27,11 +27,11 @@ int test_diagrams(Text *text, const char* outputFileName) {
     for (int curFunc = 0; curFunc < HASH_FUNC_NUM; curFunc++) {
         hashCtor(&table, hashes[curFunc]);
         initHashTable(&table, &words);
+
 		catchNullptr(table.list);
-		
 
         fprintf(stream, "%s, ", hash_names[curFunc]);
-        for (int i = 1; i < MOD; i++) {
+        for (int i = 1; i < MODULE; i++) {
             if (table.list[i].status == InActive)
                 fprintf(stream, "0, ");
             else
@@ -43,6 +43,7 @@ int test_diagrams(Text *text, const char* outputFileName) {
     }
 
     fclose(stream);
+
 	if (WordsArrayDtor(&words)) return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
@@ -62,7 +63,7 @@ int test_speed(HashFunc_t hash, Text *text) {
     initHashTable(&table, &words);	
 
 	float results[50] = {};
-	float    mid    =  0;
+	float    mid      =  0;
 
 	//for (int i = 0 ; i < 50 ; i++) {
 		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();

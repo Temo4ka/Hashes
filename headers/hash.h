@@ -20,7 +20,7 @@ struct HashTable {
 
 Elem_t* isInHashTable(HashTable* table, const char* string);
 
-int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size = MOD);
+int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size = MODULE);
 
 int hashDtor(HashTable *hashTable);
 
@@ -49,7 +49,6 @@ uint64_t GnuHash(const char* inputString);
 uint64_t CRC32Hash(const char* data);
 
 uint64_t FastCRC32Hash(const char* data);
-
 
 const uint32_t CRC32Table[256] = {
 	0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,

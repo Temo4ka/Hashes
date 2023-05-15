@@ -20,7 +20,7 @@ int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size) {
 int hashDtor(HashTable *hashTable) {
     catchNullptr(hashTable);
 
-    for (int cur = 0; cur < MOD; cur++)
+    for (int cur = 0; cur < MODULE; cur++)
         if (hashTable -> list[cur].status == Active && listDtor(&(hashTable -> list[cur]))) return EXIT_FAILURE;
         
     free(hashTable -> list);
@@ -41,7 +41,7 @@ int hashAddString(HashTable *table, char *string) {
     catchNullptr(table );
     catchNullptr(string);
 
-	unsigned h = table -> hash(string) % MOD;
+	unsigned h = table -> hash(string) % MODULE;
 	//fprintf(stderr, "%d\n", h);
 
     if (table -> list[h].status == InActive)
@@ -154,18 +154,9 @@ uint64_t FastCRC32Hash(const char* inputString) {
 	const size_t size = MAX_DATA_SIZE;
 	uint64_t hash = 0;
 
-	for (size_t cur = 0; cur < (size / sizeof(uint32_t)); cur++) {
-		hash = _mm_crc32_u32(hash, *(const uint32_t*) inputString);
-		inputString += sizeof(uint32_t);
-	}
-
-	if (size & sizeof(uint16_t)) {
-		hash = _mm_crc32_u16(hash, *(const uint16_t*) inputString);
-		inputString += sizeof(uint16_t);
-	}
-
-	if (size & sizeof(uint8_t)) {
-		hash = _mm_crc32_u8(hash, *(const uint8_t*) inputString);
+	for (size_t cur = 0; cur < (size / sizeof(uint64_t)); cur++) {
+		hash = _mm_crc32_u64(hash, *(const uint64_t*) inputString);
+		inputString += sizeof(uint64_t);
 	}
 
 	return hash;
@@ -196,7 +187,7 @@ Elem_t* isInHashTable(HashTable* table, const char* string) {
 	if (table == nullptr) return nullptr;
 	if (string == nullptr) return nullptr;
 
-	unsigned h = table -> hash(string) % MOD;
+	unsigned h = table -> hash(string) % MODULE;
 	
 	if (table -> list[h].status == InActive) return nullptr;
 

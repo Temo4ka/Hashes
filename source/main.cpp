@@ -17,7 +17,7 @@ int main() {
     else
         fprintf(stderr, "Succes\n");
 
-    if (test_speed(FastCRC32Hash, &text))
+    if (test_speed(CRC32Hash, &text))
 		fprintf(stderr, "Failure\n");
 	else
 		fprintf(stderr, "Succes\n");

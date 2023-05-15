@@ -1,4 +1,4 @@
-;.model flat, stdcall
+;.MODULEel flat, stdcall
 option casemap: none
 
 HASH_START_CONST equ 1505h
