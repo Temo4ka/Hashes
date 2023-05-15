@@ -14,7 +14,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    /*if (test_diagrams(hashes, &text, OUTPUT_FILE_NAME))
+    /*if (test_diagrams(hashes, &text, OUTPUT_FILE_NAME, HASH_FUNC_NUM))
         fprintf(stderr, "Failure\n");
     else
         fprintf(stderr, "Succes\n");*/
@@ -24,5 +24,7 @@ int main() {
 	else
 		fprintf(stderr, "Succes\n");
 
-    return 0;
+	if (TextDtor(&text)) return EXIT_FAILURE;
+
+    return EXIT_SUCCESS;
 }

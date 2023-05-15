@@ -60,6 +60,11 @@ int TextDtor(Text *text) {
 }
 
 int WordsArrayDtor(WordsArray* words) {
+	catchNullptr(words);
+
+	for (int cur = 0; cur < words -> numOfWords; cur++)
+		free(words -> array[cur]);
+	free(words -> array);
 
 	return EXIT_SUCCESS;
 }

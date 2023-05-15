@@ -41,7 +41,7 @@ int hashAddString(HashTable *table, char *string) {
     catchNullptr(table );
     catchNullptr(string);
 
-    unsigned h = table -> hash(string) % MOD;
+	unsigned h = table -> hash(string) % MOD;
 	//fprintf(stderr, "%d\n", h);
 
     if (table -> list[h].status == InActive)
@@ -49,7 +49,7 @@ int hashAddString(HashTable *table, char *string) {
 
     // fprintf(stderr, "!%d\n", h);
 
-    if (isInList(&(table -> list[h]), string)) return EXIT_SUCCESS;
+    if (isInList(&(table -> list[h]), string) != NOT_FOUND) return EXIT_SUCCESS;
 
     Elem_t newElem = listElemCtor(string, h);
     // int err = EXIT_SUCCESS;
@@ -186,20 +186,34 @@ uint64_t cycleL(uint64_t num) {
     return num;
 }
 
-bool isInList(List *list, const char* string) {
-    if ( list  == nullptr) return false;
-    if (string == nullptr) return false;
+Elem_t* isInHashTable(HashTable* table, const char* string) {
+	if (table == nullptr) return nullptr;
+	if (string == nullptr) return nullptr;
 
-	if (list -> status == InActive) return false;
+	unsigned h = table -> hash(string) % MOD;
+	
+	if (table -> list[h].status == InActive) return nullptr;
+
+	int pos = isInList(&(table->list[h]), string);
+	if (pos == NOT_FOUND) return nullptr;
+
+	return &(table -> list[h].data[pos]);
+}
+
+int isInList(List *list, const char* string) {
+    if ( list  == nullptr) return NOT_FOUND;
+    if (string == nullptr) return NOT_FOUND;
+
+	if (list -> status == InActive) return NOT_FOUND;
     
     // fprintf(stderr, "---------------\n");
     for (size_t cur = list -> next[list -> head]; cur != list -> head; cur = list -> next[cur]) {
         // fprintf(stderr, "%s - %s\n", list -> data[cur].data, string);
-        if (!myStrcmp(list -> data[cur].data, string)) return true;
+        if (!myStrcmp(list -> data[cur].data, string)) return cur;
     }
     // fprintf(stderr, "---------------\n");
 
-    return false;
+    return NOT_FOUND;
 }
 
 //------------------------------------
@@ -227,7 +241,8 @@ bool isInList(List *list, const char* string) {
 //
 //			lea esi, [esi + 4]
 //			lea edi, [edi + 4]
-//			dec ecx
+//			lea ecx, [ecx - 1]
+//
 //
 //		cmp ecx, 0d
 //		jne lp1
