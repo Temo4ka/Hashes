@@ -1,4 +1,4 @@
-# хеш-таблицы
+# Хеш-таблицы
 
 
 ## Цель работы
@@ -107,7 +107,9 @@ uint64_t RorHash(const char* inputString) {
 7. **GnuHash**
 
 ```cpp
-uint64_t GnuHash(const char *string) {
+uint64_t GnuHash(const char *inputString) {
+    if (inputString == nullptr) return ERROR_HASH;
+
     size_t totalBytes = strlen(string);
 
     uint64_t hash = 5381;
@@ -208,7 +210,7 @@ for (int cur = 0; cur < 10000000; cur++) {
 Profiler встроенный в Visual Studio помог мне найти эти узкие места.
 После тестирования я получил следующие результаты:
 
-![GnuProfiler](source/GnuHashProfiler.jpg)
+![GnuProfiler](pictures/GnuHashProfiler.jpg)
 
 Данные в таблице отсортированны по процентному использованию времени ЦП без учёта вызываемых функций.
 Заметим, что основной проблемой является функция подсчёта хеша GnuHash. Перепишу её, используя MASM 64 bit.
@@ -310,13 +312,15 @@ int myStrcmp(const char* str1, const char* str2) {
 Самое узкое место остаётся взятие хеша. Следовательно, нужно его попробовать оптимизировать ещё сильнее. В этот раз изменения будут болле радикальными. Я напишу CRC32, а потом оптимизирую его с помощью SIMD операций.
 
 ```cpp
-uint64_t CRC32Hash(const char* data) {
+uint64_t CRC32Hash(const char* inputString) {
+	if (inputString == nullptr) return ERROR_HASH;
+
 	const int CRC32_CONST = 0xFFFFFFFFu;
 
 	uint64_t hash = CRC32_CONST;
 
-	for (size_t cur = 0; cur < data[cur]; cur++) {
-		hash = (hash >> 8) ^ CRC32Table[(hash ^ data[cur]) & 0xFF];
+	for (size_t cur = 0; cur < inputString[cur]; cur++) {
+		hash = (hash >> 8) ^ CRC32Table[(hash ^ inputString[cur]) & 0xFF];
 	}
 
 	return hash ^ CRC32_CONST;
@@ -326,22 +330,24 @@ uint64_t CRC32Hash(const char* data) {
 Версия с SIMD:
 
 ```cpp
-uint64_t FastCRC32Hash(const char* data) {
+uint64_t FastCRC32Hash(const char* inputString) {
+	if (inputString == nullptr) return ERROR_HASH;
+
 	const size_t size = MAX_DATA_SIZE;
 	uint64_t hash = 0;
 
 	for (size_t cur = 0; cur < (size / sizeof(uint32_t)); cur++) {
-		hash = _mm_crc32_u32(hash, *(const uint32_t*)data);
-		data += sizeof(uint32_t);
+		hash = _mm_crc32_u32(hash, *(const uint32_t*) inputString);
+		inputString += sizeof(uint32_t);
 	}
 
 	if (size & sizeof(uint16_t)) {
-		hash = _mm_crc32_u16(hash, *(const uint16_t*)data);
-		data += sizeof(uint16_t);
+		hash = _mm_crc32_u16(hash, *(const uint16_t*) inputString);
+		inputString += sizeof(uint16_t);
 	}
 
 	if (size & sizeof(uint8_t)) {
-		hash = _mm_crc32_u8(hash, *(const uint8_t*)data);
+		hash = _mm_crc32_u8(hash, *(const uint8_t*) inputString);
 	}
 
 	return hash;
@@ -350,7 +356,7 @@ uint64_t FastCRC32Hash(const char* data) {
 
 Векторные операции порадовали. Функция теперь затрачивает в 10 раз меньше времени. Результат профайлинга:
 
-![FastCRC32](source/profilingFastCRC32.png)
+![FastCRC32](pictures/profilingFastCRC32.png)
 
 |  Особенности сборки | Время работы вызовов (мс) | Ускорение(абсолютное) |
 |---|---|---|

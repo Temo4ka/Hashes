@@ -1,2 +1,2 @@
 all:
-	g++ -mavx main.cpp list.cpp in.cpp hash.cpp test.cpp -o hash.exe
+	g++ -mavx source/main.cpp source/hash.cpp source/test.cpp source/list.cpp source/in.cpp -o hash.exe
