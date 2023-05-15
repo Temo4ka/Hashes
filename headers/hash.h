@@ -3,43 +3,46 @@
 //-------------------------------------------------------------\\
 
 #pragma "once"
+#include "in.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include "list.h"
 
 struct HashTable {
-    List *list = (List *) calloc(MOD, sizeof(List));
+    List *list;
 
-    size_t numOfElems = 0;
-    size_t   maxSize  = 0;
+    size_t numOfElems;
+    size_t   maxSize;
 
-    HashFunc_t hash = nullptr;
+    HashFunc_t hash;
 };
+
+Elem_t* isInHashTable(HashTable* table, const char* string);
 
 int hashCtor(HashTable *hashTable, HashFunc_t hash, size_t size = MOD);
 
 int hashDtor(HashTable *hashTable);
 
-int initHashTable(HashTable *table, const char *text);
-
 int hashAddString(HashTable *table, char *string);
+
+int initHashTable(HashTable* table, WordsArray* words);
 
 int myStrcmp(const char* str1, const char* str2);
 
-bool isInList(List *list, const char* string);
+int isInList(List *list, const char* string);
 
 uint64_t DumbHash(const char* inputString);
 
-uint64_t FirstByteHash(const char* inputString);
+uint64_t FirstElemHash(const char* inputString);
 
 uint64_t SumHash(const char* inputString);
 
 uint64_t StrLenHash(const char* inputString);
 
-uint64_t RolHash(const char* inputString);
+uint64_t RotlHash(const char* inputString);
 
-uint64_t RorHash(const char* inputString);
+uint64_t RotrHash(const char* inputString);
 
 uint64_t GnuHash(const char* inputString);
 
