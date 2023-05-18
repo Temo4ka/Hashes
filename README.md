@@ -12,12 +12,12 @@
 
 ```cpp
 struct HashTable {
-    List *list = (List *) calloc(MODULE, sizeof(List));
+    List *list;
 
-    size_t numOfElems = 0;
-    size_t   maxSize  = 0;
+    size_t numOfElems;
+    size_t   maxSize;
 
-    HashFunc_t hash = nullptr;
+    HashFunc_t hash;
 };
 ```
 
@@ -375,7 +375,7 @@ inline int myFastStrcmp(const char* str1, const char* str2) {
 
 К моему удивлению, функция опять замедлилась. Чтобы разобраться в этом вопросе я открыл https://godbolt.org.
 В нём увидел следующую строчку:
-	
+
 ![godBolt](pictures/godBoltStrcmp.png)
 
 Для того, чтобы убедиться на 100% в том, что функция не инлайнится, заглянул в дизассемблер Visual Studio:
