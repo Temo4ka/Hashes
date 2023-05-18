@@ -42,17 +42,14 @@ int hashAddString(HashTable *table, char *string) {
     catchNullptr(string);
 
 	unsigned h = table -> hash(string) % MODULE;
-	//fprintf(stderr, "%d\n", h);
 
     if (table -> list[h].status == InActive)
         listCtor(&(table -> list[h]));
 
-    // fprintf(stderr, "!%d\n", h);
 
     if (isInList(&(table -> list[h]), string) != NOT_FOUND) return EXIT_SUCCESS;
 
     Elem_t newElem = listElemCtor(string, h);
-    // int err = EXIT_SUCCESS;
     listPushBack(&(table -> list[h]), newElem);
 
     table -> numOfElems += 1;
@@ -119,16 +116,13 @@ uint64_t RotrHash(const char* inputString) {
     return hash;
 }
 
-uint64_t GnuHash(const char *string) {
-	if (string == nullptr) return ERROR_HASH;
-
-	size_t totalBytes = strlen(string);
+uint64_t GnuHash(const char *inputString) {
+	if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash = 5381;
 
-    char *pointer = (char *) string;
-    for (size_t currentByte = 0; currentByte < totalBytes; currentByte++) {
-        hash = hash * 33 + pointer[currentByte];
+    for (size_t currentByte = 0; inputString[currentByte]; currentByte++) {
+        hash = hash * 33 + inputString[currentByte];
     }
 
     return hash;
@@ -197,18 +191,17 @@ Elem_t* isInHashTable(HashTable* table, const char* string) {
 	return &(table -> list[h].data[pos]);
 }
 
+extern "C" int strcmpAsm(const char *str1, const char *str2);
+
 int isInList(List *list, const char* string) {
     if ( list  == nullptr) return NOT_FOUND;
     if (string == nullptr) return NOT_FOUND;
 
 	if (list -> status == InActive) return NOT_FOUND;
     
-    // fprintf(stderr, "---------------\n");
     for (size_t cur = list -> next[list -> head]; cur != list -> head; cur = list -> next[cur]) {
-        // fprintf(stderr, "%s - %s\n", list -> data[cur].data, string);
-        if (!myStrcmp(list -> data[cur].data, string)) return cur;
+        if (!strcmpAsm(list -> data[cur].data, string)) return cur;
     }
-    // fprintf(stderr, "---------------\n");
 
     return NOT_FOUND;
 }
@@ -260,4 +253,15 @@ int isInList(List *list, const char* string) {
 
 int myStrcmp(const char* str1, const char* str2) {
 	return strcmp(str1, str2);
+}
+
+inline int myFastStrcmp(const char* str1, const char* str2) {
+	__m256i str1_ = _mm256_load_si256((__m256i*) (str1));
+	__m256i str2_ = _mm256_load_si256((__m256i*) (str2));
+
+	__m256i cmp_ = _mm256_cmpeq_epi8(str1_, str2_);
+
+	int mask = _mm256_movemask_epi8(cmp_);
+
+	return (~mask != 0);
 }
