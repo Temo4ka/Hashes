@@ -73,8 +73,7 @@ uint64_t RolHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
-    uint64_t len  = strlen(inputString);
-
+    
     for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
         hash  =   cycleL(hash)  ;
