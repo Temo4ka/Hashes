@@ -77,7 +77,7 @@ uint64_t StrLenHash(const char* inputString) {
 uint64_t SumHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t sum =          0         ;
+    uint64_t sum = 0;
 
     for (int cur = 0; inputString[cur]; cur++) sum += inputString[cur];
 
@@ -90,7 +90,7 @@ uint64_t cycleR(uint64_t num);
 uint64_t RotlHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t hash =         0          ;
+    uint64_t hash = 0;
 
     for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
@@ -103,8 +103,7 @@ uint64_t RotlHash(const char* inputString) {
 uint64_t RotrHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t hash =         0          ;
-    uint64_t len  = strlen(inputString);
+    uint64_t hash = 0;
 
     for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
