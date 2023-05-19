@@ -239,24 +239,24 @@ Profiler встроенный в Visual Studio помог найти эти уз
 .code
 GnuHashAsm proc 
 
-	mov r9, rcx
+    mov r9, rcx
 
-	mov rax, HASH_START_CONST
-	xor r8d, r8d
-	xor rdx, rdx
+    mov rax, HASH_START_CONST
+    xor r8d, r8d
+    xor rdx, rdx
 
-    lp:									; do {
-		imul rax, rax, HASH_MUL_CONST	;		ans *= HASH_MUL_CONST
+    lp:                                 ; do {
+        imul rax, rax, HASH_MUL_CONST   ;       ans *= HASH_MUL_CONST
 
-		movsx r8, byte ptr[r9]			;
-		add rax, r8 					;		ans += string[r9]
+        movsx r8, byte ptr[r9]          ;
+        add rax, r8                     ;       ans += string[r9]
 
-		lea r9, [r9 + 1]				;		r9++
+        lea r9, [r9 + 1]                ;       r9++
 
-	cmp byte ptr [r9], 0h				;	
-	jne lp								; } while (string[r9] != 0)
-	
-	ret
+    cmp byte ptr [r9], 0h               ;	
+    jne lp                              ; } while (string[r9] != 0)
+
+    ret
 GnuHashAsm endp
 ```
 
