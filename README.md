@@ -58,7 +58,7 @@ uint64_t StrLenHash(const char* inputString) {
 uint64_t SumHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t sum =          0         ;
+    uint64_t sum = 0;
 
     for (int cur = 0; inputString[cur]; cur++) sum += inputString[cur];
 
@@ -72,8 +72,8 @@ uint64_t SumHash(const char* inputString) {
 uint64_t RolHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t hash =         0          ;
-    
+    uint64_t hash = 0;
+
     for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
         hash  =   cycleL(hash)  ;
@@ -90,7 +90,7 @@ uint64_t RolHash(const char* inputString) {
 uint64_t RorHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
-    uint64_t hash =         0          ;
+    uint64_t hash = 0;
 
     for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
