@@ -33,7 +33,7 @@ int initHashTable(HashTable *table, WordsArray *words) {
     catchNullptr(words);
 
     for (int curWord = 0; curWord < words -> numOfWords; curWord++)
-		hashAddString(table, words -> array[curWord]);
+        hashAddString(table, words -> array[curWord]);
     return EXIT_SUCCESS;
 }
 
@@ -41,7 +41,7 @@ int hashAddString(HashTable *table, char *string) {
     catchNullptr(table );
     catchNullptr(string);
 
-	unsigned h = table -> hash(string) % MODULE;
+    unsigned h = table -> hash(string) % MODULE;
 
     if (table -> list[h].status == InActive)
         listCtor(&(table -> list[h]));
@@ -78,9 +78,8 @@ uint64_t SumHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t sum =          0         ;
-    uint64_t len = strlen(inputString);
 
-    for (int cur = 0; cur < len; cur++) sum += inputString[cur];
+    for (int cur = 0; inputString[cur]; cur++) sum += inputString[cur];
 
     return sum;
 }
@@ -92,9 +91,8 @@ uint64_t RotlHash(const char* inputString) {
     if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash =         0          ;
-    uint64_t len  = strlen(inputString);
 
-    for (int cur = 0; cur < len; cur++) {
+    for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
         hash  =   cycleL(hash)  ;
     }
@@ -108,7 +106,7 @@ uint64_t RotrHash(const char* inputString) {
     uint64_t hash =         0          ;
     uint64_t len  = strlen(inputString);
 
-    for (int cur = 0; cur < len; cur++) {
+    for (int cur = 0; inputString[cur]; cur++) {
         hash ^= inputString[cur];
         hash  =   cycleR(hash)  ;
     }
@@ -129,31 +127,31 @@ uint64_t GnuHash(const char *inputString) {
 }
 
 uint64_t CRC32Hash(const char* inputString) {
-	if (inputString == nullptr) return ERROR_HASH;
+    if (inputString == nullptr) return ERROR_HASH;
 
-	const int CRC32_CONST = 0xFFFFFFFFu;
+    const int CRC32_CONST = 0xFFFFFFFFu;
 
-	uint64_t hash = CRC32_CONST;
+    uint64_t hash = CRC32_CONST;
 
-	for (size_t cur = 0; cur < inputString[cur]; cur++) {
-		hash = (hash >> 8) ^ CRC32Table[(hash ^ inputString[cur]) & 0xFF];
-	}
+    for (size_t cur = 0; cur < inputString[cur]; cur++) {
+        hash = (hash >> 8) ^ CRC32Table[(hash ^ inputString[cur]) & 0xFF];
+    }
 
-	return hash ^ CRC32_CONST;
+    return hash ^ CRC32_CONST;
 }
 
 uint64_t FastCRC32Hash(const char* inputString) {
-	if (inputString == nullptr) return ERROR_HASH;
+    if (inputString == nullptr) return ERROR_HASH;
 
-	const size_t size = MAX_DATA_SIZE;
-	uint64_t hash = 0;
+    const size_t size = MAX_DATA_SIZE;
+    uint64_t hash = 0;
 
-	for (size_t cur = 0; cur < (size / sizeof(uint64_t)); cur++) {
-		hash = _mm_crc32_u64(hash, *(const uint64_t*) inputString);
-		inputString += sizeof(uint64_t);
-	}
+    for (size_t cur = 0; cur < (size / sizeof(uint64_t)); cur++) {
+        hash = _mm_crc32_u64(hash, *(const uint64_t*) inputString);
+        inputString += sizeof(uint64_t);
+    }
 
-	return hash;
+    return hash;
 }
 
 uint64_t cycleR(uint64_t num) {
@@ -178,17 +176,17 @@ uint64_t cycleL(uint64_t num) {
 }
 
 Elem_t* isInHashTable(HashTable* table, const char* string) {
-	if (table == nullptr) return nullptr;
-	if (string == nullptr) return nullptr;
+    if (table == nullptr) return nullptr;
+    if (string == nullptr) return nullptr;
 
-	unsigned h = table -> hash(string) % MODULE;
-	
-	if (table -> list[h].status == InActive) return nullptr;
+    unsigned h = table -> hash(string) % MODULE;
 
-	int pos = isInList(&(table->list[h]), string);
-	if (pos == NOT_FOUND) return nullptr;
+    if (table -> list[h].status == InActive) return nullptr;
 
-	return &(table -> list[h].data[pos]);
+    int pos = isInList(&(table->list[h]), string);
+    if (pos == NOT_FOUND) return nullptr;
+
+    return &(table -> list[h].data[pos]);
 }
 
 extern "C" int strcmpAsm(const char *str1, const char *str2);
@@ -197,8 +195,8 @@ int isInList(List *list, const char* string) {
     if ( list  == nullptr) return NOT_FOUND;
     if (string == nullptr) return NOT_FOUND;
 
-	if (list -> status == InActive) return NOT_FOUND;
-    
+    if (list -> status == InActive) return NOT_FOUND;
+
     for (size_t cur = list -> next[list -> head]; cur != list -> head; cur = list -> next[cur]) {
         if (!strcmpAsm(list -> data[cur].data, string)) return cur;
     }
@@ -252,16 +250,16 @@ int isInList(List *list, const char* string) {
 //}
 
 int myStrcmp(const char* str1, const char* str2) {
-	return strcmp(str1, str2);
+    return strcmp(str1, str2);
 }
 
 inline int myFastStrcmp(const char* str1, const char* str2) {
-	__m256i str1_ = _mm256_load_si256((__m256i*) (str1));
-	__m256i str2_ = _mm256_load_si256((__m256i*) (str2));
+    __m256i str1_ = _mm256_load_si256((__m256i*) (str1));
+    __m256i str2_ = _mm256_load_si256((__m256i*) (str2));
 
-	__m256i cmp_ = _mm256_cmpeq_epi8(str1_, str2_);
+    __m256i cmp_ = _mm256_cmpeq_epi8(str1_, str2_);
 
-	int mask = _mm256_movemask_epi8(cmp_);
+    int mask = _mm256_movemask_epi8(cmp_);
 
-	return (~mask != 0);
+    return (~mask != 0);
 }
