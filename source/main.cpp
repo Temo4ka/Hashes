@@ -18,11 +18,11 @@ int main() {
         fprintf(stderr, "Succes\n");
 
     if (test_speed(CRC32Hash, &text))
-		fprintf(stderr, "Failure\n");
-	else
-		fprintf(stderr, "Succes\n");
+        fprintf(stderr, "Failure\n");
+    else
+    fprintf(stderr, "Succes\n");
 
-	if (TextDtor(&text)) return EXIT_FAILURE;
+    if (TextDtor(&text)) return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
 }
