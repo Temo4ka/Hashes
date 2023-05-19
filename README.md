@@ -105,15 +105,12 @@ uint64_t RorHash(const char* inputString) {
 
 ```cpp
 uint64_t GnuHash(const char *inputString) {
-    if (inputString == nullptr) return ERROR_HASH;
-
-    size_t totalBytes = strlen(string);
+	if (inputString == nullptr) return ERROR_HASH;
 
     uint64_t hash = 5381;
 
-    char *pointer = (char *) string;
-    for (size_t currentByte = 0; currentByte < totalBytes; currentByte++) {
-        hash = hash * 33 + pointer[currentByte];
+    for (size_t currentByte = 0; inputString[currentByte]; currentByte++) {
+        hash = hash * 33 + inputString[currentByte];
     }
 
     return hash;
